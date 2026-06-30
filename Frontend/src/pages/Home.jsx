@@ -6,11 +6,11 @@ import ProductDetails from "../components/Products/ProductDetails";
 export default function Home() {
   return (
     <div>
-      {/* <Hero /> */}
-      {/* <GenderCollectionSection /> */}
-      {/* <NewArrivals /> */}
-      {/* best seller  */}
-      {/* <h2 className="text-3xl text-center font-bold mb-4 ">Best Seller</h2> */}
+      <Hero />
+      <GenderCollectionSection />
+      <NewArrivals />
+      best seller
+      <h2 className="text-3xl text-center font-bold mb-4 ">Best Seller</h2>
       <ProductDetails />
     </div>
   );
