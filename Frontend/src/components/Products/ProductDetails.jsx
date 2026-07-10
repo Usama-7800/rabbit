@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { toast } from "sonner";
+import ProductGrid from "./ProductGrid";
 
 
 const selectedProduct = {
@@ -21,17 +23,90 @@ const selectedProduct = {
         }
     ]
 };
+
+const similarProducts = [
+  {
+    _id: "1",
+    name: "Classic Denim Jacket",
+    price: "79.99",
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=1",
+        altText: "Classic Denim Jacket Front View"
+      }
+    ]
+  },
+  {
+    _id: "2",
+    name: "Crewneck Cotton Sweatshirt",
+    price: "45.00",
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=2",
+        altText: "Crewneck Cotton Sweatshirt Flat Lay"
+      }
+    ]
+  },
+  {
+    _id: "3",
+    name: "Slim-Fit Chino Pants",
+    price: "59.95",
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=3",
+        altText: "Slim-Fit Chino Pants Side Profile"
+      }
+    ]
+  },
+  {
+    _id: "4",
+    name: "Oversized Linen Shirt",
+    price: "39.99",
+    images: [
+      {
+        url: "https://picsum.photos/500/500?random=4",
+        altText: "Oversized Linen Shirt Hanging View"
+      }
+    ]
+  },
+//   {
+//     _id: "5",
+//     name: "Minimalist Leather Sneakers",
+//     price: "120.00",
+//     images: [
+//       {
+//         url: "https://picsum.photos/500/500?random=5",
+//         altText: "Minimalist Leather Sneakers Studio Shot"
+//       }
+//     ]
+//   }
+];
 export default function ProductDetails() {
     // const [mainImage, setMainImage] = useState("");
     const [mainImage, setMainImage] = useState(() => {
         return selectedProduct?.images?.[0]?.url || "";
     });
-    const[selectedSize,setSelectedSize]=useState("")
-    const[selectedColor,setSelectedColor]=useState("")
-    const[quantity,setQuantity]=useState(1);
-    const[isButton,setIsButton]=useState(false);
+    const [selectedSize, setSelectedSize] = useState("")
+    const [selectedColor, setSelectedColor] = useState("")
+    const [quantity, setQuantity] = useState(1);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const handleQuantityChange = (action) => {
+        if (action === "plus") setQuantity((prev) => prev + 1);
+        if (action === "minus" && quantity > 1) setQuantity((prev) => prev - 1);
+    }
+    const handleAddToCart = () => {
+        if (!selectedColor || !selectedSize) {
+            toast.error("Please Select Color and size before adding to Cart", { onAutoClose: 500, closeButton: true })
+        }
+        setIsButtonDisabled(true)
 
+        setTimeout(() => {
+            toast.success(`Added ${quantity}x ${selectedProduct.name} (${selectedColor} / ${selectedSize}) to your cart!`, { onAutoClose: 500, closeButton: true });
+            setIsButtonDisabled(false);
 
+        }, 500);
+
+    }
     // useEffect(() => {
     //     if (selectedProduct?.images?.length > 0) {
     //         setMainImage(selectedProduct?.images[0]?.url)
@@ -69,26 +144,26 @@ export default function ProductDetails() {
                         <div className="mb-4">
                             <p className="text-gray-700">Color:</p>
                             <div className="flex gap-2 mt-2">{selectedProduct.colors.map((color) => (
-                                <button onClick={()=> setSelectedColor(color)} className="w-8 h-8 rounded-full border" key={color} style={{ backgroundColor: color.toLocaleLowerCase(), filter: "brightness(0.5)" }}></button>
+                                <button onClick={() => setSelectedColor(color)} className={`w-8 h-8 rounded-full   p-0.5  ${selectedColor === color ? "border-3 border-black " : "border border-gray-400 "}`} key={color} style={{ backgroundColor: color.toLocaleLowerCase(), }}></button>
                             ))}</div>
                         </div>
                         <div className="mb-4">
                             <p className="text-gray-700">Size:</p>
                             <div className="flex gap-2 mt-2">
                                 {selectedProduct.sizes.map((size) => (
-                                    <button className="px-4 py-2 rounded border" key={size} >{size}</button>
+                                    <button onClick={() => { setSelectedSize(size) }} className={`px-4 py-2 rounded border ${selectedSize === size ? "bg-black text-white" : ""}`} key={size} >{size}</button>
                                 ))}
                             </div>
                         </div>
                         <div className="mb-6 ">
                             <p className="text-gray-700">Quantity:</p>
                             <div className="flex items-center space-x-4 mt-2">
-                                <button className="px-2 py-1 bg-gray-200 rounded text-lg">-</button>
-                                <span>1</span>
-                                <button className="px-2 py-1 bg-gray-200 rounded text-lg">+</button>
+                                <button onClick={() => handleQuantityChange("minus")} className="px-2 py-1 bg-gray-200 rounded text-lg">-</button>
+                                <span>{quantity}</span>
+                                <button onClick={() => handleQuantityChange("plus")} className="px-2 py-1 bg-gray-200 rounded text-lg">+</button>
                             </div>
                         </div>
-                        <button className="bg-black text-white py-2 px-6 rounded w-full mb-4">ADD TO CART</button>
+                        <button onClick={handleAddToCart} disabled={isButtonDisabled} className={`bg-black text-white py-2 px-6 rounded w-full mb-4 ${isButtonDisabled ? "cursor-not-allowed opacity-50" : "hover:gray-900"}`}>{isButtonDisabled ? "Adding..." : "ADD TO CART"}</button>
                         <div className="mt-10 text-gray-700 ">
                             <h3 className="text-xl font-bold mb-4">Characteristics:</h3>
                             <table className="w-full text-left text-sm text-gray-600">
@@ -106,6 +181,10 @@ export default function ProductDetails() {
                             </table>
                         </div>
                     </div>
+                </div>
+                <div className="mt-20">
+                    <h2 className="text-2xl text-center font-medium mb-4">You May Also Like</h2>
+                    <ProductGrid  products={similarProducts}  />
                 </div>
             </div>
         </div>

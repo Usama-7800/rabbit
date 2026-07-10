@@ -5,7 +5,7 @@ import { FiPhone } from "react-icons/fi"; // Phone icon
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-100 py-16 px-4 md:px-8">
+    <footer className="bg-white border-t border-gray-100 py-6 px-4 md:px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         {/* Newsletter Column */}
         <div className="flex flex-col gap-4">

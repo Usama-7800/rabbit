@@ -56,7 +56,8 @@ const cartProducts = [
 export default function Navbar() {
   // Navigation Links configuration
   const navLinks = [
-    { name: "MEN", path: "/men" },
+    // { name: "MEN", path: "/men" },
+    { name: "MEN", path: "/collections/all" },
     { name: "WOMEN", path: "/women" },
     { name: "TOP WEAR", path: "/top-wear" },
     { name: "BOTTOM WEAR", path: "/bottom-wear" },
