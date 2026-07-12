@@ -1,4 +1,10 @@
 import { useState } from "react";
+// import PaypalButton from "./PaypalButton";
+import { Elements } from "@stripe/react-stripe-js";
+
+import { loadStripe } from "@stripe/stripe-js";
+import CheckoutForm from "./CheckoutForm";
+// import { useNavigate } from "react-router-dom";
 
 // Aapka diya gaya dynamic cart data
 const cart = {
@@ -27,6 +33,7 @@ const cart = {
 
 export default function CheckoutPage() {
   const [checkoutId, setCheckoutId] = useState(null)
+  // const navigation=useNavigate();
   const [shippingAddress, setShippingAddress] = useState({
     email: "admin@example.com",
     firstName: "",
@@ -67,6 +74,14 @@ export default function CheckoutPage() {
   // 2. Shipping Calculation (Total Price - Subtotal)
   const shipping = cart.totalPrice - subtotal;
 
+  // const handlePaymentSuccess = (details) => {
+  //   console.log("Payment Details", details);
+  //   navigation("/order-confirmation");
+
+  // }
+
+  // stripe config 
+  const stripePromise = loadStripe('pk_test_51SB8FXDtNKGI4wdoBHdzigNirlLq0wlOQIMYpLZacGVCmn9PvQaWCusESrqsYlP30KJ7B6gjXc8A78fNfGXyAfxK00ypmWxsSl');
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
@@ -221,10 +236,20 @@ export default function CheckoutPage() {
                     Continue to Payment
                   </button>
                 ) : (
-                  <div className="">
-                    <h3 className="text-lg mb-4 ">Pay with Paypal</h3>
-                    {/* paypal button component  */}
-                  </div>
+                  <>
+                    {/* <div className="">
+                      <h3 className="text-lg mb-4 ">Pay with Paypal</h3>
+                      paypal button component 
+                      <PaypalButton amount={100} success={handlePaymentSuccess} onError={(error) => alert("PayPal payment error:", error)} />
+                    </div> */}
+                    <div>
+                      <h3 className="text-lg mb-4 ">Pay with Stripe</h3>
+                      {/* Wrap your form inside Elements */}
+                      <Elements stripe={stripePromise}>
+                        <CheckoutForm />
+                      </Elements>
+                    </div>
+                  </>
                 )}
               </div>
             </div>

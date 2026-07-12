@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import Collection from "./pages/Collection";
 import ProductDetails from "./components/Products/ProductDetails";
 import CheckOut from "./components/Cart/CheckOut";
+import OrderConfirmation from "./pages/OrderConfirmation";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="collections/:collection" element={<Collection />} />
             <Route path="product/:id" element={<ProductDetails />} />
             <Route path="checkout" element={<CheckOut />} />
+            <Route path="order-confirmation" element={<OrderConfirmation />} />
           </Route>
           <Route>{/* admin layout */}</Route>
         </Routes>
