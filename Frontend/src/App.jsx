@@ -10,6 +10,14 @@ import Collection from "./pages/Collection";
 import ProductDetails from "./components/Products/ProductDetails";
 import CheckOut from "./components/Cart/CheckOut";
 import OrderConfirmation from "./pages/OrderConfirmation";
+import OrderDetailsPage from "./pages/OrderDetailsPage";
+import MyorderPage from "./pages/MyorderPage";
+import AdminLayout from "./components/Admin/AdminLayout";
+import AdminHomePage from "./pages/AdminHomePage";
+import UserManagemant from "./components/Admin/UserManagemant";
+import ProductManagement from "./components/Admin/ProductManagement";
+import EditProductPage from "./components/Admin/EditProductPage";
+import OrderManagement from "./components/Admin/OrderManagement";
 
 function App() {
   return (
@@ -17,8 +25,6 @@ function App() {
       <BrowserRouter>
         <Toaster position="top-right" />
         <Routes>
-          {/* admin layout  */}
-          {/* <Route path='/' element={<Home />} /> */}
           {/* user layout  */}
           <Route path="/" element={<UserLayout />}>
             <Route index element={<Home />} />
@@ -29,8 +35,18 @@ function App() {
             <Route path="product/:id" element={<ProductDetails />} />
             <Route path="checkout" element={<CheckOut />} />
             <Route path="order-confirmation" element={<OrderConfirmation />} />
+            <Route path="order/:id" element={<OrderDetailsPage />} />
+            <Route path="my-orders" element={<MyorderPage />} />
           </Route>
-          <Route>{/* admin layout */}</Route>
+          {/* admin layout */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminHomePage />} />
+            <Route path="dashboard" element={<AdminHomePage />} />
+            <Route path="users" element={<UserManagemant />} />
+            <Route path="products" element={<ProductManagement />} />
+            <Route path="products/:id/edit" element={<EditProductPage />} />
+            <Route path="orders" element={<OrderManagement />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

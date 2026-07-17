@@ -107,6 +107,11 @@ export default function Navbar() {
           {/* Right Side: Action Icons */}
           <div className="flex items-center gap-4 text-gray-800">
             <Link
+              to="/admin"
+              className="block bg-black px-2 py-0.5 rounded text-sm text-white"
+            >Admin
+            </Link>
+            <Link
               to="/profile"
               className="p-1 hover:text-rabbit-red transition-colors"
               aria-label="Profile"

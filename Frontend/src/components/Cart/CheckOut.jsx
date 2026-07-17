@@ -3,7 +3,9 @@ import { useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 
 import { loadStripe } from "@stripe/stripe-js";
-import CheckoutForm from "./CheckoutForm";
+// import CheckoutForm from "./CheckoutForm";
+import StripeCheckoutForm from "./StripeCheckoutForm";
+import { toast } from "sonner";
 // import { useNavigate } from "react-router-dom";
 
 // Aapka diya gaya dynamic cart data
@@ -52,17 +54,19 @@ export default function CheckoutPage() {
   const handleCreateCheckout = (e) => {
     e.preventDefault();
     setCheckoutId(123)
-    console.log("Submitting Order with Form:", shippingAddress, "and Cart:", cart);
-    setShippingAddress({
-      email: "",
-      firstName: "",
-      lastName: "",
-      address: "",
-      city: "",
-      postalCode: "",
-      country: "",
-      phone: "",
-    })
+    toast.success("Submitting Order with Form:", shippingAddress, "and Cart:", cart);
+
+    // console.log("Submitting Order with Form:", shippingAddress, "and Cart:", cart);
+    // setShippingAddress({
+    //   email: "",
+    //   firstName: "",
+    //   lastName: "",
+    //   address: "",
+    //   city: "",
+    //   postalCode: "",
+    //   country: "",
+    //   phone: "",
+    // })
   };
 
   // 1. Dynamic Subtotal Calculation (Price * Quantity)
@@ -81,7 +85,7 @@ export default function CheckoutPage() {
   // }
 
   // stripe config 
-  const stripePromise = loadStripe('pk_test_51SB8FXDtNKGI4wdoBHdzigNirlLq0wlOQIMYpLZacGVCmn9PvQaWCusESrqsYlP30KJ7B6gjXc8A78fNfGXyAfxK00ypmWxsSl');
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_CLIENT_ID);
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
@@ -246,7 +250,8 @@ export default function CheckoutPage() {
                       <h3 className="text-lg mb-4 ">Pay with Stripe</h3>
                       {/* Wrap your form inside Elements */}
                       <Elements stripe={stripePromise}>
-                        <CheckoutForm />
+                        {/* <CheckoutForm /> */}
+                        <StripeCheckoutForm />
                       </Elements>
                     </div>
                   </>
